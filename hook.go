@@ -1,8 +1,11 @@
 package hookintercepter
 
 import (
+	"errors"
 	"io"
 )
+
+var ErrSeekUnsupported = errors.New("seek is not supported")
 
 type Hook struct {
 	source io.Reader
@@ -22,12 +25,7 @@ func (h *Hook) Seek(offset int64, whence int) (n int64, err error) {
 	if ok {
 		return sourceSeeker.Seek(offset, whence)
 	}
-	// Verify if hook has embedded Seeker, use it.
-	hookSeeker, ok := h.hook.(io.Seeker)
-	if ok {
-		return hookSeeker.Seek(offset, whence)
-	}
-	return n, nil
+	return n, ErrSeekUnsupported
 }
 
 func (h *Hook) Read(b []byte) (n int, err error) {
