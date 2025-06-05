@@ -25,7 +25,7 @@ func (h *Hook) Seek(offset int64, whence int) (n int64, err error) {
 	if ok {
 		return sourceSeeker.Seek(offset, whence)
 	}
-	return n, ErrSeekUnsupported
+	return n, nil
 }
 
 func (h *Hook) Read(b []byte) (n int, err error) {
