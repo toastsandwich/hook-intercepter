@@ -34,7 +34,7 @@ func (h *Hook) Read(b []byte) (n int, err error) {
 	if err != nil && err != io.EOF {
 		return
 	}
-	log := fmt.Sprintf("progress bar has read %d bytes\n.", n)
+	log := fmt.Sprintf("progress bar has read %d bytes.\n", n)
 	if _, werr := h.hook.Write([]byte(log)); werr != nil {
 		if werr != io.EOF {
 			return n, werr
