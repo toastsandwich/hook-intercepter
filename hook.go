@@ -2,6 +2,7 @@ package hookintercepter
 
 import (
 	"errors"
+	"fmt"
 	"io"
 )
 
@@ -33,7 +34,8 @@ func (h *Hook) Read(b []byte) (n int, err error) {
 	if err != nil && err != io.EOF {
 		return
 	}
-	if _, werr := h.hook.Write(b[:n]); werr != nil {
+	log := fmt.Sprintf("progress bar has read %d bytes\n.", n)
+	if _, werr := h.hook.Write([]byte(log)); werr != nil {
 		if werr != io.EOF {
 			return n, werr
 		}
